@@ -1,7 +1,7 @@
 <template>
     <div class="login">
         <div class="row">
-            <div class="col-md-6 mx-auto contact-form">
+            <div class="col-md-4 mx-auto contact-form">
                 <div class="form-group row">
                     <div class="col-sm-12">
                         <label for="email">Email *</label>

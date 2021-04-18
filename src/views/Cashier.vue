@@ -1,6 +1,12 @@
 <template>
   <div class="cashier">
-    <h1>Cashier View</h1>
+    <nav class="navbar navbar-light bg-light">
+      <a class="navbar-brand" href="#">
+        {{username}}
+      </a>
+      <button class="btn btn-outline-success my-2 my-sm-0" v-on:click.prevent="executeLogout" >Logout</button>
+
+    </nav>
     <ul>
       <li v-for="(value, key) in currentNetworth" v-bind:key="key">{{key}}:{{value}}</li>
     </ul>
@@ -9,9 +15,9 @@
 
 <script>
 
-import { mapGetters } from 'vuex'
 import {BASE_API_URL} from '../config/keys.js'
 import axios from 'axios'
+import {mapActions} from 'vuex'
 
 
 export default {
@@ -20,22 +26,44 @@ export default {
   components: {},
   data(){
     return {
-      currentNetworth:{}
+      currentNetworth:{},
+      username:""
     }
   },
-  computed:{
-    ...mapGetters(['username'])
+  methods:{
+    ...mapActions(['logoutUser']),
+    executeLogout: function(){
+      this.logoutUser().then(res=>{
+
+        console.log('successfully logged out the owner');
+        console.log(res);
+        this.$router.push('/login');
+
+      }).catch(err=>{
+
+        console.log('some error occured during log out');
+        console.log(err);
+
+      });
+    }
   },
   mounted() {
 
-    axios.get(BASE_API_URL+"/api/transactions/getnetworth/1").then(res=>{
+    this.$nextTick(function () {
+
+      this.username = this.$store.getters.username;
+      axios.get(BASE_API_URL+"/api/transactions/getnetworth/1").then(res=>{
       if(res.data.success){
         console.log('current networth fetched is');
         this.currentNetworth = res.data.networth[0];
         console.log(this.currentNetworth);
+        
 
-      }
-    });
+        }
+      });
+    })
+
+    
   }
 
 }

@@ -5,6 +5,7 @@ import store from './store'
 import axios from 'axios'
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import "./helpers/filters.js"
 
 Vue.config.productionTip = false
 

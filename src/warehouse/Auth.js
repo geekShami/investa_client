@@ -28,9 +28,19 @@ const actions = {
 
 
     logoutUser({commit}){
-        localStorage.removeItem('token');
-        delete axios.defaults.headers.common['Authorization'];
-        commit('auth_logout');
+
+        return new Promise((resoleve, reject)=>{
+            try{
+                localStorage.removeItem('token');
+                delete axios.defaults.headers.common['Authorization'];
+                commit('auth_logout');
+                resoleve({message:"logged out", success:true});
+            }
+            catch(err){
+                reject(err);
+            }
+        });
+
     },
     loginUser({commit}, user){
 
